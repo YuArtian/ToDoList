@@ -19,7 +19,12 @@ export function TodoForm({ onAdd }: TodoFormProps) {
   if (!active) {
     return (
       <button className="add-task-btn" onClick={() => setActive(true)}>
-        <span className="add-task-plus">+</span> 添加任务
+        <span className="add-task-plus">
+          <svg width="10" height="10" viewBox="0 0 10 10">
+            <line x1="5" y1="0" x2="5" y2="10" stroke="currentColor" strokeWidth="1.5" />
+            <line x1="0" y1="5" x2="10" y2="5" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+        </span> 添加任务
       </button>
     );
   }

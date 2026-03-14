@@ -20,6 +20,8 @@
         "minHeight": 200,
         "decorations": false,
         "transparent": true,
+        "backgroundColor": "#00000000",
+        "shadow": false,
         "alwaysOnTop": true,
         "x": 1500,
         "y": 200
