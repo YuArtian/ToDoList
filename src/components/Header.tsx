@@ -1,4 +1,5 @@
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import "./Header.css";
 import appIcon from "../assets/app-icon.svg";
 
 interface HeaderProps {

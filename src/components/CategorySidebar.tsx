@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Category } from "../types";
+import "./CategorySidebar.css";
 
 interface CategorySidebarProps {
   categories: Category[];

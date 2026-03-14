@@ -1,0 +1,93 @@
+/* ===== Add Task ===== */
+.add-task-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px;
+  margin-top: 4px;
+  font-size: 20px;
+  color: #8a857b;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.add-task-btn:hover {
+  color: #d97757;
+  background: #e8e3d9;
+}
+
+.add-task-plus {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #d97757;
+}
+
+.add-task-plus svg {
+  display: block;
+}
+
+.add-task-btn:hover .add-task-plus {
+  background: #d97757;
+  color: #f1ede4;
+}
+
+.add-task-form {
+  margin-top: 4px;
+  padding: 10px;
+  border: 1px solid #ddd6cb;
+  border-radius: 10px;
+  background: #ebe7de;
+}
+
+.add-task-input {
+  width: 100%;
+  padding: 6px 0;
+  border: none;
+  font-size: 14px;
+  outline: none;
+  background: transparent;
+  color: inherit;
+}
+
+.add-task-input::placeholder {
+  color: #b5ae9f;
+}
+
+.add-task-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  padding: 6px 16px;
+  background: #191918;
+  color: #f1ede4;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 400;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: #333230;
+}
+
+.btn-cancel {
+  padding: 6px 16px;
+  background: transparent;
+  color: #6b6860;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 400;
+  border: 1px solid #ddd6cb;
+  transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #e0dbd0;
+}

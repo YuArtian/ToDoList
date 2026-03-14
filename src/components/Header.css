@@ -1,0 +1,71 @@
+/* ===== Header ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 12px;
+  background: #e8e3d9;
+  color: #191918;
+  flex-shrink: 0;
+  user-select: none;
+  cursor: grab;
+  border-radius: 16px 16px 0 0;
+  border-bottom: 1px solid #ddd6cb;
+}
+
+.header:active {
+  cursor: grabbing;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.header-title {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.header-stats {
+  font-size: 11px;
+  color: #6b6860;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.header-right {
+  display: flex;
+  gap: 4px;
+}
+
+.header-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 11px;
+  color: #6b6860;
+  transition: background 0.2s, color 0.2s;
+}
+
+.header-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #191918;
+}
+
+.header-btn.close:hover {
+  background: rgba(217, 119, 87, 0.15);
+  color: #d97757;
+}
