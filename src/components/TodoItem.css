@@ -102,3 +102,11 @@
 .todo-action-btn.delete:hover {
   color: #d97757;
 }
+
+.todo-item.dragging {
+  opacity: 0.4;
+}
+
+.todo-item.drag-over {
+  border-top: 2px solid #d97757;
+}

@@ -19,7 +19,7 @@ function App() {
 
   const { categories, addCategory, removeCategory } =
     useCategories(refreshKey);
-  const { todos, addTodo, editTodo, toggle, removeTodo, completedCount } =
+  const { todos, addTodo, editTodo, toggle, removeTodo, reorder, completedCount } =
     useTodos(selectedCategoryId, refreshKey);
 
   const selectedCategory = categories.find(
@@ -81,6 +81,10 @@ function App() {
               }}
               onDelete={async (id) => {
                 await removeTodo(id);
+                refresh();
+              }}
+              onReorder={async (ids) => {
+                await reorder(ids);
                 refresh();
               }}
             />

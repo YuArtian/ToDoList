@@ -4,12 +4,29 @@ import "./TodoItem.css";
 
 interface TodoItemProps {
   todo: Todo;
+  index: number;
+  isDragging: boolean;
+  isDragOver: boolean;
   onToggle: (id: number, completed: number) => void;
   onEdit: (id: number, title: string) => void;
   onDelete: (id: number) => void;
+  onDragStart: (index: number) => void;
+  onDragEnter: (index: number) => void;
+  onDragEnd: () => void;
 }
 
-export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
+export function TodoItem({
+  todo,
+  index,
+  isDragging,
+  isDragOver,
+  onToggle,
+  onEdit,
+  onDelete,
+  onDragStart,
+  onDragEnter,
+  onDragEnd,
+}: TodoItemProps) {
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
 
@@ -21,10 +38,27 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
     setEditing(false);
   };
 
+  const classNames = [
+    "todo-item",
+    todo.completed ? "completed" : "",
+    isDragging ? "dragging" : "",
+    isDragOver ? "drag-over" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <div
-      className={`todo-item ${todo.completed ? "completed" : ""}`}
+      className={classNames}
+      draggable
       onClick={() => !editing && onToggle(todo.id, todo.completed ? 0 : 1)}
+      onDragStart={(e) => {
+        e.dataTransfer.effectAllowed = "move";
+        onDragStart(index);
+      }}
+      onDragEnter={() => onDragEnter(index)}
+      onDragOver={(e) => e.preventDefault()}
+      onDragEnd={onDragEnd}
     >
       <button
         className={`todo-checkbox ${todo.completed ? "checked" : ""}`}
@@ -48,9 +82,7 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
           autoFocus
         />
       ) : (
-        <span className="todo-title">
-          {todo.title}
-        </span>
+        <span className="todo-title">{todo.title}</span>
       )}
 
       <div className="todo-actions" onClick={(e) => e.stopPropagation()}>

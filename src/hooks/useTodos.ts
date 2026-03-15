@@ -6,6 +6,7 @@ import {
   updateTodoTitle,
   toggleTodo,
   deleteTodo,
+  reorderTodos,
 } from "../lib/commands";
 
 export function useTodos(categoryId: number | null, refreshKey: number) {
@@ -40,7 +41,12 @@ export function useTodos(categoryId: number | null, refreshKey: number) {
     await load();
   };
 
+  const reorder = async (ids: number[]) => {
+    await reorderTodos(ids);
+    await load();
+  };
+
   const completedCount = todos.filter((t) => t.completed === 1).length;
 
-  return { todos, addTodo, editTodo, toggle, removeTodo, completedCount };
+  return { todos, addTodo, editTodo, toggle, removeTodo, reorder, completedCount };
 }

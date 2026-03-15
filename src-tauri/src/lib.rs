@@ -21,6 +21,12 @@ pub fn run() {
             );
             INSERT OR IGNORE INTO categories (id, name) VALUES (1, '默认');",
         kind: MigrationKind::Up,
+    },
+    Migration {
+        version: 2,
+        description: "add sort_order to todos",
+        sql: "ALTER TABLE todos ADD COLUMN sort_order INTEGER NOT NULL DEFAULT 0;",
+        kind: MigrationKind::Up,
     }];
 
     tauri::Builder::default()

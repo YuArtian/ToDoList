@@ -31,12 +31,12 @@ export async function fetchTodos(categoryId?: number | null): Promise<Todo[]> {
   const d = await getDb();
   if (categoryId != null) {
     return await d.select<Todo[]>(
-      "SELECT * FROM todos WHERE category_id = ? ORDER BY completed ASC, created_at DESC",
+      "SELECT * FROM todos WHERE category_id = ? ORDER BY sort_order ASC, id ASC",
       [categoryId]
     );
   }
   return await d.select<Todo[]>(
-    "SELECT * FROM todos ORDER BY completed ASC, created_at DESC"
+    "SELECT * FROM todos ORDER BY sort_order ASC, id ASC"
   );
 }
 
@@ -73,4 +73,11 @@ export async function toggleTodo(id: number, completed: number): Promise<void> {
 export async function deleteTodo(id: number): Promise<void> {
   const d = await getDb();
   await d.execute("DELETE FROM todos WHERE id = ?", [id]);
+}
+
+export async function reorderTodos(ids: number[]): Promise<void> {
+  const d = await getDb();
+  for (let i = 0; i < ids.length; i++) {
+    await d.execute("UPDATE todos SET sort_order = ? WHERE id = ?", [i, ids[i]]);
+  }
 }
