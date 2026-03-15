@@ -45,13 +45,7 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
           autoFocus
         />
       ) : (
-        <span
-          className="todo-title"
-          onDoubleClick={() => {
-            setEditTitle(todo.title);
-            setEditing(true);
-          }}
-        >
+        <span className="todo-title">
           {todo.title}
         </span>
       )}
