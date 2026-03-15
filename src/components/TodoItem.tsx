@@ -22,10 +22,13 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
   };
 
   return (
-    <div className={`todo-item ${todo.completed ? "completed" : ""}`}>
+    <div
+      className={`todo-item ${todo.completed ? "completed" : ""}`}
+      onClick={() => !editing && onToggle(todo.id, todo.completed ? 0 : 1)}
+    >
       <button
         className={`todo-checkbox ${todo.completed ? "checked" : ""}`}
-        onClick={() => onToggle(todo.id, todo.completed ? 0 : 1)}
+        onClick={(e) => e.stopPropagation()}
         aria-label={todo.completed ? "标记为未完成" : "标记为已完成"}
       />
 
@@ -50,7 +53,7 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
         </span>
       )}
 
-      <div className="todo-actions">
+      <div className="todo-actions" onClick={(e) => e.stopPropagation()}>
         <button
           className="todo-action-btn"
           onClick={() => {
