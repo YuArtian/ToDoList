@@ -1,4 +1,20 @@
-import { useRef, useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from "@dnd-kit/modifiers";
 import type { Todo } from "../types";
 import { TodoItem } from "./TodoItem";
 import "./TodoList.css";
@@ -12,29 +28,20 @@ interface TodoListProps {
 }
 
 export function TodoList({ todos, onToggle, onEdit, onDelete, onReorder }: TodoListProps) {
-  const dragIndex = useRef<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    })
+  );
 
-  const handleDragStart = (index: number) => {
-    dragIndex.current = index;
-  };
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-  const handleDragEnter = (index: number) => {
-    setDragOverIndex(index);
-  };
-
-  const handleDragEnd = () => {
-    const from = dragIndex.current;
-    const to = dragOverIndex;
-    dragIndex.current = null;
-    setDragOverIndex(null);
-
-    if (from === null || to === null || from === to) return;
-
-    const newTodos = [...todos];
-    const [moved] = newTodos.splice(from, 1);
-    newTodos.splice(to, 0, moved);
-    onReorder(newTodos.map((t) => t.id));
+    const oldIndex = todos.findIndex((t) => t.id === active.id);
+    const newIndex = todos.findIndex((t) => t.id === over.id);
+    const reordered = arrayMove(todos, oldIndex, newIndex);
+    onReorder(reordered.map((t) => t.id));
   };
 
   if (todos.length === 0) {
@@ -47,22 +54,28 @@ export function TodoList({ todos, onToggle, onEdit, onDelete, onReorder }: TodoL
   }
 
   return (
-    <div className="todo-list">
-      {todos.map((todo, index) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          index={index}
-          isDragging={dragIndex.current === index}
-          isDragOver={dragOverIndex === index && dragIndex.current !== index}
-          onToggle={onToggle}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          onDragStart={handleDragStart}
-          onDragEnter={handleDragEnter}
-          onDragEnd={handleDragEnd}
-        />
-      ))}
-    </div>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    >
+      <SortableContext
+        items={todos.map((t) => t.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <div className="todo-list">
+          {todos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onToggle={onToggle}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
+          ))}
+        </div>
+      </SortableContext>
+    </DndContext>
   );
 }

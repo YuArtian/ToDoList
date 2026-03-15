@@ -9,6 +9,7 @@
   transition: background 0.2s;
   border-radius: 6px;
   cursor: pointer;
+  user-select: none;
 }
 
 .todo-item:hover {
@@ -103,10 +104,22 @@
   color: #d97757;
 }
 
-.todo-item.dragging {
-  opacity: 0.4;
+.drag-handle {
+  color: #c8c2b8;
+  font-size: 14px;
+  cursor: grab;
+  padding: 0 2px;
+  user-select: none;
+  line-height: 1;
 }
 
-.todo-item.drag-over {
-  border-top: 2px solid #d97757;
+.drag-handle:hover {
+  color: #8a857b;
+}
+
+.todo-item.dragging {
+  opacity: 0.5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #f1ede4;
+  z-index: 10;
 }

@@ -1,34 +1,33 @@
 import { useState } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import type { Todo } from "../types";
 import "./TodoItem.css";
 
 interface TodoItemProps {
   todo: Todo;
-  index: number;
-  isDragging: boolean;
-  isDragOver: boolean;
   onToggle: (id: number, completed: number) => void;
   onEdit: (id: number, title: string) => void;
   onDelete: (id: number) => void;
-  onDragStart: (index: number) => void;
-  onDragEnter: (index: number) => void;
-  onDragEnd: () => void;
 }
 
-export function TodoItem({
-  todo,
-  index,
-  isDragging,
-  isDragOver,
-  onToggle,
-  onEdit,
-  onDelete,
-  onDragStart,
-  onDragEnter,
-  onDragEnd,
-}: TodoItemProps) {
+export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: todo.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   const handleSave = () => {
     const title = editTitle.trim();
@@ -38,28 +37,17 @@ export function TodoItem({
     setEditing(false);
   };
 
-  const classNames = [
-    "todo-item",
-    todo.completed ? "completed" : "",
-    isDragging ? "dragging" : "",
-    isDragOver ? "drag-over" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   return (
     <div
-      className={classNames}
-      draggable
+      ref={setNodeRef}
+      style={style}
+      className={`todo-item ${todo.completed ? "completed" : ""} ${isDragging ? "dragging" : ""}`}
       onClick={() => !editing && onToggle(todo.id, todo.completed ? 0 : 1)}
-      onDragStart={(e) => {
-        e.dataTransfer.effectAllowed = "move";
-        onDragStart(index);
-      }}
-      onDragEnter={() => onDragEnter(index)}
-      onDragOver={(e) => e.preventDefault()}
-      onDragEnd={onDragEnd}
     >
+      <div className="drag-handle" {...attributes} {...listeners}>
+        ⠿
+      </div>
+
       <button
         className={`todo-checkbox ${todo.completed ? "checked" : ""}`}
         onClick={(e) => e.stopPropagation()}
