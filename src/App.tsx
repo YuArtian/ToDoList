@@ -1,31 +1,33 @@
 import { useState } from "react";
 import { Header } from "./components/Header";
-import { CategorySidebar } from "./components/CategorySidebar";
 import { TodoList } from "./components/TodoList";
 import { TodoForm } from "./components/TodoForm";
-import { useCategories } from "./hooks/useCategories";
 import { useTodos } from "./hooks/useTodos";
 import "./App.css";
 
 function App() {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null
-  );
   const [refreshKey, setRefreshKey] = useState(0);
   const [collapsed, setCollapsed] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [allNotesExpanded, setAllNotesExpanded] = useState(false);
+  const [expandSignal, setExpandSignal] = useState(0);
 
   const refresh = () => setRefreshKey((k) => k + 1);
 
-  const { categories, addCategory, removeCategory } =
-    useCategories(refreshKey);
-  const { todos, addTodo, editTodo, toggle, removeTodo, reorder, completedCount } =
-    useTodos(selectedCategoryId, refreshKey);
+  const {
+    todos,
+    addTodo,
+    editTodo,
+    editNotes,
+    toggle,
+    removeTodo,
+    reorder,
+    completedCount,
+  } = useTodos(refreshKey);
 
-  const selectedCategory = categories.find(
-    (c) => c.id === selectedCategoryId
-  );
-  const contentTitle = selectedCategory ? selectedCategory.name : "全部";
+  const handleToggleAllNotes = () => {
+    setAllNotesExpanded((v) => !v);
+    setExpandSignal((s) => s + 1);
+  };
 
   return (
     <div className="app">
@@ -33,44 +35,17 @@ function App() {
         totalCount={todos.length}
         completedCount={completedCount}
         collapsed={collapsed}
+        allNotesExpanded={allNotesExpanded}
         onToggleCollapse={() => setCollapsed(!collapsed)}
+        onToggleAllNotes={handleToggleAllNotes}
       />
       {!collapsed && (
         <main className="main">
-          {showSidebar && (
-            <CategorySidebar
-              categories={categories}
-              selectedId={selectedCategoryId}
-              onSelect={(id) => {
-                setSelectedCategoryId(id);
-                setShowSidebar(false);
-              }}
-              onAdd={async (name) => {
-                await addCategory(name);
-                refresh();
-              }}
-              onDelete={async (id) => {
-                await removeCategory(id);
-                if (selectedCategoryId === id) {
-                  setSelectedCategoryId(null);
-                }
-                refresh();
-              }}
-            />
-          )}
           <div className="content">
-            <div className="content-header">
-              <button
-                className="category-toggle"
-                onClick={() => setShowSidebar(!showSidebar)}
-                title="切换项目列表"
-              >
-                #
-              </button>
-              <h2 className="content-title">{contentTitle}</h2>
-            </div>
             <TodoList
               todos={todos}
+              forceExpandedSignal={expandSignal}
+              forceExpanded={allNotesExpanded}
               onToggle={async (id, completed) => {
                 await toggle(id, completed);
                 refresh();
@@ -78,6 +53,16 @@ function App() {
               onEdit={async (id, title) => {
                 await editTodo(id, title);
                 refresh();
+              }}
+              onEditNotes={async (id, notes) => {
+                console.log("[App] onEditNotes called", { id, notes });
+                try {
+                  await editNotes(id, notes);
+                  console.log("[App] editNotes resolved", { id });
+                  refresh();
+                } catch (err) {
+                  console.error("[App] editNotes failed", err);
+                }
               }}
               onDelete={async (id) => {
                 await removeTodo(id);

@@ -78,38 +78,6 @@ input {
   position: relative;
 }
 
-.content-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.category-toggle {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #6b6860;
-  transition: all 0.2s;
-}
-
-.category-toggle:hover {
-  background: #e8e3d9;
-  color: #d97757;
-}
-
-.content-title {
-  font-size: 16px;
-  font-weight: 400;
-  color: #191918;
-  letter-spacing: -0.01em;
-}
-
 /* ===== Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 4px;

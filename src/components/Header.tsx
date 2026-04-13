@@ -6,14 +6,18 @@ interface HeaderProps {
   totalCount: number;
   completedCount: number;
   collapsed: boolean;
+  allNotesExpanded: boolean;
   onToggleCollapse: () => void;
+  onToggleAllNotes: () => void;
 }
 
 export function Header({
   totalCount,
   completedCount,
   collapsed,
+  allNotesExpanded,
   onToggleCollapse,
+  onToggleAllNotes,
 }: HeaderProps) {
   const appWindow = getCurrentWindow();
 
@@ -27,6 +31,13 @@ export function Header({
         </span>
       </div>
       <div className="header-right">
+        <button
+          className={`header-btn${allNotesExpanded ? " active" : ""}`}
+          onClick={onToggleAllNotes}
+          title={allNotesExpanded ? "全部折叠备注" : "全部展开备注"}
+        >
+          &#128221;
+        </button>
         <button
           className="header-btn"
           onClick={onToggleCollapse}

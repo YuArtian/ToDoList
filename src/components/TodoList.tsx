@@ -21,13 +21,25 @@ import "./TodoList.css";
 
 interface TodoListProps {
   todos: Todo[];
+  forceExpandedSignal?: number;
+  forceExpanded?: boolean;
   onToggle: (id: number, completed: number) => void;
   onEdit: (id: number, title: string) => void;
+  onEditNotes: (id: number, notes: string) => void;
   onDelete: (id: number) => void;
   onReorder: (ids: number[]) => void;
 }
 
-export function TodoList({ todos, onToggle, onEdit, onDelete, onReorder }: TodoListProps) {
+export function TodoList({
+  todos,
+  forceExpandedSignal,
+  forceExpanded,
+  onToggle,
+  onEdit,
+  onEditNotes,
+  onDelete,
+  onReorder,
+}: TodoListProps) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
@@ -69,8 +81,11 @@ export function TodoList({ todos, onToggle, onEdit, onDelete, onReorder }: TodoL
             <TodoItem
               key={todo.id}
               todo={todo}
+              forceExpandedSignal={forceExpandedSignal}
+              forceExpanded={forceExpanded}
               onToggle={onToggle}
               onEdit={onEdit}
+              onEditNotes={onEditNotes}
               onDelete={onDelete}
             />
           ))}

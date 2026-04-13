@@ -1,5 +1,5 @@
 import Database from "@tauri-apps/plugin-sql";
-import type { Todo, Category } from "../types";
+import type { Todo } from "../types";
 
 let db: Database | null = null;
 
@@ -10,45 +10,17 @@ export async function getDb(): Promise<Database> {
   return db;
 }
 
-// Categories
-export async function fetchCategories(): Promise<Category[]> {
-  const d = await getDb();
-  return await d.select<Category[]>("SELECT * FROM categories ORDER BY id");
-}
-
-export async function createCategory(name: string): Promise<void> {
-  const d = await getDb();
-  await d.execute("INSERT INTO categories (name) VALUES (?)", [name]);
-}
-
-export async function deleteCategory(id: number): Promise<void> {
-  const d = await getDb();
-  await d.execute("DELETE FROM categories WHERE id = ?", [id]);
-}
-
 // Todos
-export async function fetchTodos(categoryId?: number | null): Promise<Todo[]> {
+export async function fetchTodos(): Promise<Todo[]> {
   const d = await getDb();
-  if (categoryId != null) {
-    return await d.select<Todo[]>(
-      "SELECT * FROM todos WHERE category_id = ? ORDER BY sort_order ASC, id ASC",
-      [categoryId]
-    );
-  }
   return await d.select<Todo[]>(
     "SELECT * FROM todos ORDER BY sort_order ASC, id ASC"
   );
 }
 
-export async function createTodo(
-  title: string,
-  categoryId: number | null
-): Promise<void> {
+export async function createTodo(title: string): Promise<void> {
   const d = await getDb();
-  await d.execute(
-    "INSERT INTO todos (title, category_id) VALUES (?, ?)",
-    [title, categoryId]
-  );
+  await d.execute("INSERT INTO todos (title) VALUES (?)", [title]);
 }
 
 export async function updateTodoTitle(
@@ -60,6 +32,25 @@ export async function updateTodoTitle(
     "UPDATE todos SET title = ?, updated_at = datetime('now') WHERE id = ?",
     [title, id]
   );
+}
+
+export async function updateTodoNotes(
+  id: number,
+  notes: string
+): Promise<void> {
+  console.log("[commands] updateTodoNotes SQL", { id, notes });
+  const d = await getDb();
+  const result = await d.execute(
+    "UPDATE todos SET notes = ?, updated_at = datetime('now') WHERE id = ?",
+    [notes, id]
+  );
+  console.log("[commands] updateTodoNotes result", result);
+}
+
+export async function fetchTodosDebug(): Promise<void> {
+  const d = await getDb();
+  const rows = await d.select("SELECT id, title, notes FROM todos");
+  console.log("[commands] fetchTodosDebug", rows);
 }
 
 export async function toggleTodo(id: number, completed: number): Promise<void> {
