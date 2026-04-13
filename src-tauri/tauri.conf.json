@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/nicegui-org/nicegui/main/schemas/tauri.conf.json",
   "productName": "TodoList",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "identifier": "com.todolist.app",
   "build": {
     "frontendDist": "../dist",
