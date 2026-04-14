@@ -1,5 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./styles/theme.css";
+import "./styles/base.css";
+import "./animations/gsapConfig";
 import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

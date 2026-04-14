@@ -1,0 +1,42 @@
+:root {
+  /* === Orange Cat Palette === */
+  --cat-orange: #EDA65D;
+  --cat-orange-dark: #C6823B;
+  --cat-tummy: #F2C089;
+  --cat-stroke: #383C4B;
+
+  /* Surfaces */
+  --ghibli-cream: #FBF5EF;
+  --ghibli-cloud: #FFFFFF;
+
+  /* Functional */
+  --ghibli-grass: #8BBF6E;
+  --ghibli-grass-dark: #5E9A44;
+  --ghibli-rose: #E8929A;
+  --ghibli-sunset: #F4A67E;
+
+  /* Text */
+  --ghibli-text: #383C4B;
+  --ghibli-text-soft: #7A7468;
+  --ghibli-text-faint: #B0A89C;
+
+  /* Borders & shadows */
+  --ghibli-border: #E6DCDB;
+  --ghibli-shadow: rgba(56, 60, 75, 0.06);
+  --ghibli-shadow-md: rgba(56, 60, 75, 0.12);
+
+  /* Spacing */
+  --space-xs: 2px;
+  --space-sm: 4px;
+  --space-md: 8px;
+  --space-lg: 12px;
+  --space-xl: 16px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+  --radius-full: 50%;
+  --radius-pill: 20px;
+}

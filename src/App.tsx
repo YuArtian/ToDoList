@@ -55,14 +55,8 @@ function App() {
                 refresh();
               }}
               onEditNotes={async (id, notes) => {
-                console.log("[App] onEditNotes called", { id, notes });
-                try {
-                  await editNotes(id, notes);
-                  console.log("[App] editNotes resolved", { id });
-                  refresh();
-                } catch (err) {
-                  console.error("[App] editNotes failed", err);
-                }
+                await editNotes(id, notes);
+                refresh();
               }}
               onDelete={async (id) => {
                 await removeTodo(id);

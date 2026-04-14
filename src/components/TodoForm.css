@@ -1,28 +1,33 @@
-/* ===== Add Task ===== */
+/* ===== Add Task Button ===== */
 .add-task-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 8px;
-  margin-top: 4px;
-  font-size: 20px;
-  color: #8a857b;
-  border-radius: 8px;
+  gap: var(--space-md);
+  width: 100%;
+  padding: 10px var(--space-lg);
+  margin-top: var(--space-md);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ghibli-text-soft);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
   transition: color 0.2s, background 0.2s;
 }
 
 .add-task-btn:hover {
-  color: #d97757;
-  background: #e8e3d9;
+  color: var(--cat-orange-dark);
+  background: rgba(237, 166, 93, 0.08);
 }
 
 .add-task-plus {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  color: #d97757;
+  border-radius: var(--radius-full);
+  color: var(--cat-orange);
+  transition: all 0.25s ease;
 }
 
 .add-task-plus svg {
@@ -30,16 +35,19 @@
 }
 
 .add-task-btn:hover .add-task-plus {
-  background: #d97757;
-  color: #f1ede4;
+  background: var(--cat-orange);
+  color: var(--ghibli-cloud);
+  transform: scale(1.15);
 }
 
+/* ===== Form ===== */
 .add-task-form {
-  margin-top: 4px;
+  margin-top: var(--space-md);
   padding: 10px;
-  border: 1px solid #ddd6cb;
-  border-radius: 10px;
-  background: #ebe7de;
+  border: 2px solid var(--ghibli-border);
+  border-radius: var(--radius-lg);
+  background: var(--ghibli-cloud);
+  box-shadow: 0 2px 8px var(--ghibli-shadow);
 }
 
 .add-task-input {
@@ -53,41 +61,41 @@
 }
 
 .add-task-input::placeholder {
-  color: #b5ae9f;
+  color: var(--ghibli-text-faint);
 }
 
 .add-task-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
   justify-content: flex-end;
 }
 
 .btn-primary {
-  padding: 6px 16px;
-  background: #191918;
-  color: #f1ede4;
-  border-radius: 20px;
+  padding: 6px var(--space-xl);
+  background: var(--cat-orange);
+  color: var(--ghibli-cloud);
+  border-radius: var(--radius-pill);
   font-size: 13px;
-  font-weight: 400;
-  transition: background 0.2s;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 .btn-primary:hover {
-  background: #333230;
+  background: var(--cat-orange-dark);
 }
 
 .btn-cancel {
-  padding: 6px 16px;
+  padding: 6px var(--space-xl);
   background: transparent;
-  color: #6b6860;
-  border-radius: 20px;
+  color: var(--ghibli-text-soft);
+  border-radius: var(--radius-pill);
   font-size: 13px;
   font-weight: 400;
-  border: 1px solid #ddd6cb;
+  border: 1px solid var(--ghibli-border);
   transition: background 0.2s;
 }
 
 .btn-cancel:hover {
-  background: #e0dbd0;
+  background: rgba(0, 0, 0, 0.04);
 }

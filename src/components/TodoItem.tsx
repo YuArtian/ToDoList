@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { Todo } from "../types";
 import { NotesEditor } from "./NotesEditor";
+import { useTodoAnimations } from "../animations/useTodoAnimations";
+import { useSparkle } from "../decorations/Sparkle";
 import "./TodoItem.css";
 
 interface TodoItemProps {
   todo: Todo;
+  isNew?: boolean;
   forceExpandedSignal?: number;
   forceExpanded?: boolean;
   onToggle: (id: number, completed: number) => void;
@@ -17,6 +20,7 @@ interface TodoItemProps {
 
 export function TodoItem({
   todo,
+  isNew,
   forceExpandedSignal,
   forceExpanded,
   onToggle,
@@ -27,6 +31,11 @@ export function TodoItem({
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
   const [showNotes, setShowNotes] = useState(false);
+
+  const itemRef = useRef<HTMLDivElement>(null);
+  const checkboxRef = useRef<HTMLButtonElement>(null);
+  const { animateAdd, animateRemove, animateComplete } = useTodoAnimations();
+  const emitSparkle = useSparkle();
 
   const {
     attributes,
@@ -42,8 +51,14 @@ export function TodoItem({
     transition,
   };
 
-  // Global "expand all / collapse all" signal: resets this item's local state
-  // whenever the signal changes. User is still free to toggle afterwards.
+  // Animate new items on mount
+  useEffect(() => {
+    if (isNew && itemRef.current) {
+      animateAdd(itemRef.current);
+    }
+  }, [isNew, animateAdd]);
+
+  // Global "expand all / collapse all" signal
   useEffect(() => {
     if (forceExpandedSignal === undefined) return;
     setShowNotes(!!forceExpanded);
@@ -57,24 +72,44 @@ export function TodoItem({
     setEditing(false);
   };
 
+  const handleToggle = () => {
+    if (editing) return;
+    if (!todo.completed && checkboxRef.current) {
+      animateComplete(checkboxRef.current);
+      emitSparkle(checkboxRef.current);
+    }
+    onToggle(todo.id, todo.completed ? 0 : 1);
+  };
+
+  const handleDelete = async () => {
+    if (itemRef.current) {
+      await animateRemove(itemRef.current);
+    }
+    onDelete(todo.id);
+  };
+
+  const setRefs = (node: HTMLElement | null) => {
+    setNodeRef(node);
+    (itemRef as React.MutableRefObject<HTMLDivElement | null>).current =
+      node as HTMLDivElement | null;
+  };
+
   const notes = todo.notes ?? "";
   const hasNotes = notes.trim() !== "" && notes !== "<p></p>";
 
   return (
     <div
-      ref={setNodeRef}
+      ref={setRefs}
       style={style}
       className={`todo-item ${todo.completed ? "completed" : ""} ${isDragging ? "dragging" : ""}`}
     >
-      <div
-        className="todo-row"
-        onClick={() => !editing && onToggle(todo.id, todo.completed ? 0 : 1)}
-      >
+      <div className="todo-row" onClick={handleToggle}>
         <div className="drag-handle" {...attributes} {...listeners}>
           ⠿
         </div>
 
         <button
+          ref={checkboxRef}
           className={`todo-checkbox ${todo.completed ? "checked" : ""}`}
           onClick={(e) => e.stopPropagation()}
           aria-label={todo.completed ? "标记为未完成" : "标记为已完成"}
@@ -120,7 +155,7 @@ export function TodoItem({
           </button>
           <button
             className="todo-action-btn delete"
-            onClick={() => onDelete(todo.id)}
+            onClick={handleDelete}
             title="删除"
           >
             &#128465;
@@ -132,12 +167,6 @@ export function TodoItem({
         <NotesEditor
           initialHtml={notes}
           onSave={(html) => {
-            console.log("[TodoItem] onSave received", {
-              id: todo.id,
-              html,
-              prevNotes: notes,
-              changed: html !== notes,
-            });
             if (html !== notes) {
               onEditNotes(todo.id, html);
             }

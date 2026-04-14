@@ -2,10 +2,10 @@
 .todo-item {
   display: flex;
   flex-direction: column;
-  padding: 4px 8px;
-  border-bottom: 1px solid #e0dbd0;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--ghibli-border);
   transition: background 0.2s;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   user-select: none;
 }
 
@@ -14,21 +14,21 @@
   align-items: center;
   gap: 10px;
   min-height: 30px;
-  padding: 4px 0;
+  padding: var(--space-sm) 0;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
 }
 
 .todo-row:hover {
-  background: #e8e3d9;
+  background: rgba(237, 166, 93, 0.06);
 }
 
 .todo-checkbox {
   width: 18px;
   height: 18px;
   min-width: 18px;
-  border-radius: 50%;
-  border: 1.5px solid #b5ae9f;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--ghibli-border);
   background: transparent;
   cursor: pointer;
   transition: all 0.2s;
@@ -36,12 +36,12 @@
 }
 
 .todo-checkbox:hover {
-  border-color: #d97757;
+  border-color: var(--cat-orange);
 }
 
 .todo-checkbox.checked {
-  border-color: #b5ae9f;
-  background: #b5ae9f;
+  border-color: var(--ghibli-grass);
+  background: var(--ghibli-grass);
 }
 
 .todo-checkbox.checked::after {
@@ -51,8 +51,8 @@
   left: 5px;
   width: 4px;
   height: 7px;
-  border: solid #f1ede4;
-  border-width: 0 1.5px 1.5px 0;
+  border: solid var(--ghibli-cloud);
+  border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
@@ -65,28 +65,28 @@
 
 .todo-item.completed .todo-title {
   text-decoration: line-through;
-  color: #b5ae9f;
+  color: var(--ghibli-text-faint);
   opacity: 0.7;
 }
 
 .todo-edit-input {
   flex: 1;
   min-width: 0;
-  padding: 4px 8px;
-  border: 1px solid #ddd6cb;
-  border-radius: 6px;
+  padding: var(--space-sm) var(--space-md);
+  border: 2px solid var(--ghibli-border);
+  border-radius: var(--radius-md);
   font-size: 14px;
   outline: none;
-  background: #f1ede4;
+  background: var(--ghibli-cloud);
 }
 
 .todo-edit-input:focus {
-  border-color: #d97757;
+  border-color: var(--cat-orange);
 }
 
 .todo-actions {
   display: flex;
-  gap: 2px;
+  gap: var(--space-xs);
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -97,16 +97,16 @@
 
 .todo-action-btn.notes.has-notes {
   opacity: 1;
-  color: #d97757;
+  color: var(--cat-orange);
 }
 
 .todo-action-btn.notes.active {
-  background: #e0dbd0;
-  color: #d97757;
+  background: var(--cat-tummy);
+  color: var(--cat-orange-dark);
   opacity: 1;
 }
 
-/* Always show notes button when notes exist, even when not hovering */
+/* Always show notes button when notes exist */
 .todo-actions:has(.todo-action-btn.notes.has-notes),
 .todo-actions:has(.todo-action-btn.notes.active) {
   opacity: 1;
@@ -115,36 +115,37 @@
 .todo-action-btn {
   padding: 3px 5px;
   font-size: 12px;
-  color: #8a857b;
-  border-radius: 4px;
+  color: var(--ghibli-text-soft);
+  border-radius: var(--radius-sm);
   transition: background 0.2s, color 0.2s;
 }
 
 .todo-action-btn:hover {
-  background: #e0dbd0;
-  color: #191918;
+  background: rgba(237, 166, 93, 0.1);
+  color: var(--ghibli-text);
 }
 
 .todo-action-btn.delete:hover {
-  color: #d97757;
+  background: rgba(232, 146, 154, 0.1);
+  color: var(--ghibli-rose);
 }
 
 .drag-handle {
-  color: #c8c2b8;
+  color: var(--ghibli-border);
   font-size: 14px;
   cursor: grab;
-  padding: 0 2px;
+  padding: 0 var(--space-xs);
   user-select: none;
   line-height: 1;
 }
 
 .drag-handle:hover {
-  color: #8a857b;
+  color: var(--ghibli-text-soft);
 }
 
 .todo-item.dragging {
   opacity: 0.5;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  background: #f1ede4;
+  box-shadow: 0 4px 12px var(--ghibli-shadow-md);
+  background: var(--ghibli-cream);
   z-index: 10;
 }
