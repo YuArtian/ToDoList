@@ -4,6 +4,16 @@
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，并遵循 [语义化版本](https://semver.org/lang/zh-CN/) 规范。
 
+## [0.3.0] - 2026-04-15
+
+### ✨ Features
+- 引入宫崎骏风格设计规范与动画体系：CSS custom properties 主题（`--ghibli-*`）、装饰组件架构、云朵漂移等常驻轻量动画
+- 增强 TodoItem 的 GSAP 交互动画（add / remove / complete），新增手绘风格 CatIcon 组件
+
+### 🔧 Chore
+- 接入 release-please 自动化发版 workflow
+- 新增项目专属 `/release` skill，固化 release-please + 手动 tag 双通路流程
+
 ## [0.2.0] - 2026-04-13
 
 ### ✨ Features
@@ -24,5 +34,6 @@
 - 通过 `@tauri-apps/plugin-sql` 持久化数据到本地 SQLite
 - GitHub Actions 自动构建并发布 Release
 
+[0.3.0]: https://github.com/YuArtian/ToDoList/releases/tag/v0.3.0
 [0.2.0]: https://github.com/YuArtian/ToDoList/releases/tag/v0.2.0
 [0.0.1]: https://github.com/YuArtian/ToDoList/releases/tag/v0.0.1
