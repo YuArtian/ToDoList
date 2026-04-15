@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import gsap from "gsap";
 
-const PARTICLE_COUNT = 5;
+const PARTICLE_COUNT = 8;
 
 function createStar(): SVGSVGElement {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");

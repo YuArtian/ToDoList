@@ -27,12 +27,27 @@ export function useTodoAnimations() {
     });
   }, []);
 
-  const animateComplete = useCallback((checkbox: HTMLElement) => {
+  const animateComplete = useCallback((item: HTMLElement, checkbox: HTMLElement) => {
+    // Checkbox pop
     gsap.fromTo(
       checkbox,
       { scale: 1 },
-      { scale: 1.2, duration: DURATION.fast, ease: EASE_ENTER, yoyo: true, repeat: 1 }
+      { scale: 1.35, duration: DURATION.fast, ease: EASE_ENTER, yoyo: true, repeat: 1 }
     );
+    // Row green flash to make completion obvious across the whole row
+    const row = item.querySelector<HTMLElement>(".todo-row");
+    if (row) {
+      gsap.fromTo(
+        row,
+        { backgroundColor: "rgba(139, 191, 110, 0.4)" },
+        {
+          backgroundColor: "rgba(139, 191, 110, 0)",
+          duration: DURATION.slow,
+          ease: "power2.out",
+          clearProps: "backgroundColor",
+        }
+      );
+    }
   }, []);
 
   return { animateAdd, animateRemove, animateComplete };

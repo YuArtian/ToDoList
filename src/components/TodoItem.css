@@ -2,25 +2,30 @@
 .todo-item {
   display: flex;
   flex-direction: column;
-  padding: var(--space-sm) var(--space-md);
   border-bottom: 1px solid var(--ghibli-border);
   transition: background 0.2s;
   border-radius: var(--radius-md);
   user-select: none;
+  /* Prevent native browser touch-action interfering with dnd-kit drag */
+  touch-action: manipulation;
 }
 
 .todo-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 30px;
-  padding: var(--space-sm) 0;
+  min-height: 44px;
+  padding: var(--space-lg) var(--space-md);
   cursor: pointer;
   border-radius: var(--radius-md);
 }
 
 .todo-row:hover {
-  background: rgba(237, 166, 93, 0.06);
+  background: rgba(237, 166, 93, 0.1);
+}
+
+.todo-item.dragging .todo-row {
+  cursor: grabbing;
 }
 
 .todo-checkbox {
@@ -128,19 +133,6 @@
 .todo-action-btn.delete:hover {
   background: rgba(232, 146, 154, 0.1);
   color: var(--ghibli-rose);
-}
-
-.drag-handle {
-  color: var(--ghibli-border);
-  font-size: 14px;
-  cursor: grab;
-  padding: 0 var(--space-xs);
-  user-select: none;
-  line-height: 1;
-}
-
-.drag-handle:hover {
-  color: var(--ghibli-text-soft);
 }
 
 .todo-item.dragging {

@@ -34,6 +34,7 @@ export function TodoItem({
 
   const itemRef = useRef<HTMLDivElement>(null);
   const checkboxRef = useRef<HTMLButtonElement>(null);
+  const prevCompletedRef = useRef(todo.completed);
   const { animateAdd, animateRemove, animateComplete } = useTodoAnimations();
   const emitSparkle = useSparkle();
 
@@ -64,6 +65,21 @@ export function TodoItem({
     setShowNotes(!!forceExpanded);
   }, [forceExpandedSignal, forceExpanded]);
 
+  // Fire completion animation AFTER React commits the reorder,
+  // so sparkles/flash render at the item's new position (not where it was clicked).
+  useEffect(() => {
+    if (
+      !prevCompletedRef.current &&
+      todo.completed &&
+      itemRef.current &&
+      checkboxRef.current
+    ) {
+      animateComplete(itemRef.current, checkboxRef.current);
+      emitSparkle(checkboxRef.current);
+    }
+    prevCompletedRef.current = todo.completed;
+  }, [todo.completed, animateComplete, emitSparkle]);
+
   const handleSave = () => {
     const title = editTitle.trim();
     if (title && title !== todo.title) {
@@ -74,10 +90,6 @@ export function TodoItem({
 
   const handleToggle = () => {
     if (editing) return;
-    if (!todo.completed && checkboxRef.current) {
-      animateComplete(checkboxRef.current);
-      emitSparkle(checkboxRef.current);
-    }
     onToggle(todo.id, todo.completed ? 0 : 1);
   };
 
@@ -103,15 +115,16 @@ export function TodoItem({
       style={style}
       className={`todo-item ${todo.completed ? "completed" : ""} ${isDragging ? "dragging" : ""}`}
     >
-      <div className="todo-row" onClick={handleToggle}>
-        <div className="drag-handle" {...attributes} {...listeners}>
-          ⠿
-        </div>
-
+      <div
+        className="todo-row"
+        onClick={handleToggle}
+        {...attributes}
+        {...listeners}
+      >
         <button
           ref={checkboxRef}
+          type="button"
           className={`todo-checkbox ${todo.completed ? "checked" : ""}`}
-          onClick={(e) => e.stopPropagation()}
           aria-label={todo.completed ? "标记为未完成" : "标记为已完成"}
         />
 

@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 40px;
+  height: 60px;
   padding: 0 var(--space-lg);
   background: var(--ghibli-cream);
   color: var(--ghibli-text);
@@ -24,22 +24,17 @@
   align-items: center;
   gap: var(--space-md);
   z-index: 1;
+  /* Let pointer events fall through to the header so dragging works over logo/title/stats */
+  pointer-events: none;
 }
 
 .header-icon {
-  width: 22px;
-  height: 22px;
-}
-
-.header-title {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--cat-stroke);
+  width: 50px;
+  height: 50px;
 }
 
 .header-stats {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--cat-orange-dark);
   background: var(--cat-tummy);
@@ -54,13 +49,13 @@
 }
 
 .header-btn {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-full);
-  font-size: 11px;
+  font-size: 14px;
   color: var(--ghibli-text-soft);
   transition: background 0.2s, color 0.2s;
 }
